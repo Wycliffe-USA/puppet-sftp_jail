@@ -6,3 +6,4 @@ fixtures:
     sshkeys_core:
       repo: https://github.com/puppetlabs/puppetlabs-sshkeys_core.git
       puppet_version: ">= 6.0.0"
+    accounts: https://forge.puppet.com/modules/puppetlabs/accounts
