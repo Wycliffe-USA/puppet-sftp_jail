@@ -1,36 +1,30 @@
-# Class: sftp_jail::user
-# ==============================
+# @summary Adds a user's home directory to an SFTP jail.
 #
-# Adds a user's home dir to an SFTP jail
-# Used for shared jails to allow multiple users to write
-# Or to allow one user to write and others to read-only
+# Used for shared jails to allow multiple users to write, or to allow one user
+# to write and others to read-only.
 #
-# Parameters
-# ----------
+# @example Add user to the jail `myjail`
+#   sftp_jail::user {'bob':
+#     jail => '/chroot/myjail',
+#   }
 #
-# * `user`
-#   User name that should access/own the directory.
-#   Defaults to name of resource.
+# @example Add user to the jail `myjail` and assign permissions
+#   sftp_jail::user{'bob':
+#     group => 'myjail_write',
+#     jail  => '/chroot/myjail',
+#   }
 #
-# * `group`
-#   Group name that should own the directory.
-#   Defaults to name of resource.
+# @param user
+#   The username that will own the corresponding home directory in the jail,
+#   giving the user a place to land.
 #
-# * `jail`
-#   Path to the jail that the user's directory should be set to.
-#   Be careful not to add a trailing slash.
-#   e.g. `/chroot/myjail`
+# @param group
+#   The group that will own the corresponding home directory in the jail.
 #
-# Examples
-# -------
-# sftp_jail::user {'bob':
-#   jail => '/chroot/myjail',
-# }
+# @param jail
+#   The path of the jail's base directory, such as `/chroot/myjail`. Do not
+#   include a trailing slash.
 #
-# sftp_jail::user{'bob':
-#   group => 'myjail_write',
-#   jail  => '/chroot/myjail',
-# }
 define sftp_jail::user (
   $user  = $name,
   $group = $name,
