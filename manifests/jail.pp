@@ -58,19 +58,14 @@ define sftp_jail::jail (
   include sftp_jail
 
   unless $ensure == 'absent' {
-    if $ensure == 'absent' {
-      $_ensure = 'absent'
-    } else {
-      $_ensure = 'directory'
-    }
     file { [$jail_base, "${jail_base}/home"]:
-        ensure => $_ensure,
+        ensure => 'directory',
         owner  => 'root',
         group  => 'root',
         mode   => '0755',
     }
     file { "${jail_base}/incoming":
-      ensure => $_ensure,
+      ensure => 'directory',
       owner  => $user,
       group  => $group,
       mode   => '0775',
@@ -86,16 +81,15 @@ define sftp_jail::jail (
     merge_subdirs => $merge_subdirs,
   }
 
-  if $ensure == 'present' {
-    ssh::server::match_block { $match_group:
-      type    => 'Group',
-      options => {
-        'ChrootDirectory'        => $jail_base,
-        'ForceCommand'           => 'internal-sftp',
-        'PasswordAuthentication' => bool2str($password_authentication, 'yes', 'no'),
-        'AllowTcpForwarding'     => 'no',
-        'X11Forwarding'          => 'no',
-      },
-    }
+  ssh::server::match_block { $match_group:
+    ensure  => $ensure,
+    type    => 'Group',
+    options => {
+      'ChrootDirectory'        => $jail_base,
+      'ForceCommand'           => 'internal-sftp',
+      'PasswordAuthentication' => bool2str($password_authentication, 'yes', 'no'),
+      'AllowTcpForwarding'     => 'no',
+      'X11Forwarding'          => 'no',
+    },
   }
 }
