@@ -21,7 +21,6 @@ class sftp_jail (
   Boolean               $merge_subdirs  = false,
   Boolean               $pw_auth_users  = false,
 ) {
-
   file { $chroot_base:
     ensure => 'directory',
     owner  => 'root',

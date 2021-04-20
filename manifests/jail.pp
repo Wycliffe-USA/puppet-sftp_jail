@@ -59,10 +59,10 @@ define sftp_jail::jail (
 
   unless $ensure == 'absent' {
     file { [$jail_base, "${jail_base}/home"]:
-        ensure => 'directory',
-        owner  => 'root',
-        group  => 'root',
-        mode   => '0755',
+      ensure => 'directory',
+      owner  => 'root',
+      group  => 'root',
+      mode   => '0755',
     }
     file { "${jail_base}/incoming":
       ensure => 'directory',
